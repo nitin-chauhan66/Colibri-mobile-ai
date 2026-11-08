@@ -38,6 +38,10 @@ cmake --build /tmp/colibri-mobile-build
 ctest --test-dir /tmp/colibri-mobile-build --output-on-failure
 ```
 
+The Android wrapper is in `mobile_ai/android`. Pushes touching that directory
+run `.github/workflows/mobile-apk.yml`; the workflow uploads
+`app-debug.apk` as the `colibri-mobile-ai-debug` artifact.
+
 ## Android JNI integration
 
 Build the static library with the Android NDK toolchain and expose an opaque
