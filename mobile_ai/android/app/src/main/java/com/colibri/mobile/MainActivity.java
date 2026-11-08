@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.view.View;
 
 public final class MainActivity extends Activity {
     private TextView output;
@@ -25,9 +26,14 @@ public final class MainActivity extends Activity {
 
         Button run = new Button(this);
         run.setText("Run smoke inference");
-        run.setOnClickListener(view -> runSmokeInference());
+        run.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                runSmokeInference();
+            }
+        });
 
-        LinearLayout content = new LinearLayout(this);
+        final LinearLayout content = new LinearLayout(this);
         content.setOrientation(LinearLayout.VERTICAL);
         content.addView(output);
         content.addView(run);
@@ -39,9 +45,17 @@ public final class MainActivity extends Activity {
     private void runSmokeInference() {
         output.append("\n\nRunning native engine...");
         final int[] tokens = {1, 2, 3, 4};
-        new Thread(() -> {
-            String result = NativeEngine.run(engine, tokens);
-            new Handler(Looper.getMainLooper()).post(() -> output.append("\n" + result));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String result = NativeEngine.run(engine, tokens);
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        output.append("\n" + result);
+                    }
+                });
+            }
         }).start();
     }
 

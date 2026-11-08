@@ -33,8 +33,8 @@ std::string toUtf8(JNIEnv* env, jstring value) {
 }  // namespace
 
 extern "C" JNIEXPORT jlong JNICALL
-Java_com_colibri_mobile_NativeEngine_create(JNIEnv* env, jclass,
-                                            jstring files_dir) {
+Java_com_colibri_mobile_NativeEngine_nativeCreate(JNIEnv* env, jclass,
+                                                  jstring files_dir) {
     try {
         return reinterpret_cast<jlong>(
             new EngineHandle(toUtf8(env, files_dir)));
@@ -44,8 +44,9 @@ Java_com_colibri_mobile_NativeEngine_create(JNIEnv* env, jclass,
 }
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_colibri_mobile_NativeEngine_run(JNIEnv* env, jclass, jlong handle,
-                                         jintArray token_array) {
+Java_com_colibri_mobile_NativeEngine_nativeRun(JNIEnv* env, jclass,
+                                               jlong handle,
+                                               jintArray token_array) {
     if (handle == 0 || token_array == nullptr) {
         return env->NewStringUTF("Native engine is unavailable.");
     }
@@ -68,6 +69,7 @@ Java_com_colibri_mobile_NativeEngine_run(JNIEnv* env, jclass, jlong handle,
 }
 
 extern "C" JNIEXPORT void JNICALL
-Java_com_colibri_mobile_NativeEngine_destroy(JNIEnv*, jclass, jlong handle) {
+Java_com_colibri_mobile_NativeEngine_nativeDestroy(JNIEnv*, jclass,
+                                                   jlong handle) {
     delete reinterpret_cast<EngineHandle*>(handle);
 }
