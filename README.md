@@ -30,6 +30,16 @@ engine. The language models also run from the GGUF files already published,
 read as they are ([GGUF](docs/gguf.md)), on the CPU, on any GPU through Vulkan
 and on NVIDIA cards through CUDA. [Which one for my machine](#which-model-for-my-machine)
 
+## Mobile streaming prototype
+
+The experimental C++20 mobile layer is in [`mobile_ai/`](mobile_ai/). It
+provides bounded RSS accounting, RAII `mmap` expert routing, a recycling
+prefetch ring, a dual-thread inference loop, and ARM NEON/SIMD hooks, with JNI
+and Objective-C++ integration guidance in
+[`mobile_ai/README.md`](mobile_ai/README.md). It is intentionally separate
+from the production desktop engines while the 4 GB mobile budget and platform
+backends are being measured.
+
 ```
 $ ./coli chat
   colibri v2.1.0 · GLM-5.2 · 744B MoE · int4 · streaming CPU
