@@ -7,6 +7,10 @@ on:
       - "mobile_ai/**"
       - ".github/workflows/mobile-apk.yml"
 
+concurrency:
+  group: mobile-apk-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   debug-apk:
     runs-on: ubuntu-24.04
